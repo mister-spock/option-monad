@@ -3,36 +3,32 @@ const
     Some = require("./Some"),
     None = require("./None");
 
-function Option() {
-    throw new Error("You cannot instantiate an 'abstract' Option class, use Some/None or static methods!");
+/**
+ * Option monad facade function
+ * @param {Any} val A value (or it's absense) to be stored in the Some
+ * @param {Any} noneValue A criteria of what value will be treated as a None case. Null by default
+ * @return {Option}
+ */
+function Option(val, noneValue = null) {
+    if (new.target) {
+        throw new Error("'Option' is not a constructor!");
+    }
+
+    return Object.is(val, undefined) || Object.is(val, noneValue) ?
+        new None() :
+        new Some(val);
 }
 
-Object.defineProperties(Option, {
-    fromValue: {
-        value: function(value, noneValue = null) {
-            if (value === noneValue || Object.is(value, noneValue)) {
-                return new None();
-            }
-
-            return new Some(value);
-        },
-        enumerable: false,
-        configurable: false,
-        writable: false
+/**
+ * Used by 'instanceof' operator to make sure Some and None are considered Option instances
+ */
+Object.defineProperty(Option, Symbol.hasInstance, {
+    value: function(value) {
+        return value instanceof Some || value instanceof None;
     },
-
-    ensure: {
-        value: function(value, noneValue = null) {
-            if (value instanceof Option) {
-                return value;
-            }
-
-            return Option.fromValue(value);
-        },
-        enumerable: false,
-        configurable: false,
-        writable: false
-    }
+    enumerable   : false,
+    configurable : false,
+    writable     : false
 });
 
 module.exports = Option;
