@@ -24,7 +24,7 @@ function Option(val, noneValue = null) {
  */
 Object.defineProperty(Option, Symbol.hasInstance, {
     value: function(value) {
-        return value instanceof Some || value instanceof None;
+        return (value instanceof Some) || (value instanceof None);
     },
     enumerable   : false,
     configurable : false,

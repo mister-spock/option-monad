@@ -1,5 +1,4 @@
-// Some subclass of Option
-
+// Some case of an Option
 const value = Symbol("okozak:option-js:value");
 
 /**
@@ -28,7 +27,33 @@ Object.defineProperty(Some, "create", {
 });
 
 Object.assign(Some.prototype, {
+    isDefined() {
+        return true;
+    },
 
+    isEmpty() {
+        return false;
+    },
+
+    get() {
+        return this[value];
+    },
+
+    getOrElse() {
+        return this[value];
+    },
+
+    getOrCall() {
+        return this[value];
+    },
+
+    getOrThrow() {
+        return this[value];
+    },
+
+    orElse() {
+        return this;
+    }
 });
 
 module.exports = Some;
