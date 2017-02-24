@@ -146,6 +146,7 @@ Object.assign(Some.prototype, {
         if (!(func instanceof Function)) {
             throw new TypeError("Argument passed to the Option.map method has to be a function");
         }
+
         return new Some(func(this[value]));
     },
 
@@ -157,8 +158,10 @@ Object.assign(Some.prototype, {
         let result = func(this[value]);
 
         if (!(result instanceof Option)) {
-            throw new TypeError("Function passed to 'flatMap' must return instance of Option. Maybe use 'map'?");
+            throw new Error("Function passed to 'flatMap' must return instance of Option. Maybe use 'map'?");
         }
+
+        return result;
     },
 
     filter(func) {

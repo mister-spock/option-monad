@@ -1,7 +1,7 @@
 const {expect} = require("chai");
 const {Option, None} = require("../src/Option");
 
-describe("'None' instance of an 'Option' monad", function() {
+describe("'None' variant of an 'Option' monad", function() {
 
     describe("#create() static method", function() {
         it("should return instance of self that is also an instance of Option", function() {

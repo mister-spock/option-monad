@@ -1,27 +1,32 @@
 {
-    "name": "option-monade",
-    "version": "1.0.0",
-    "description": "Option monadic collection implementation for JS",
-    "main": "index.js",
-    "scripts": {
-        "test": "mocha",
-        "test:watch": "mocha watch"
-    },
-    "keywords": [
-        "Option",
-        "monadic",
-        "collection",
-        "ECMAScript6",
-        "functional"
-    ],
-    "author": "Oleg Kozak",
-    "license": "MIT",
-    "repository": {
-        "type": "git",
-        "url": "to-be-filled"
-    },
-    "devDependencies": {
-        "chai": "^3.5.0",
-        "mocha": "^3.2.0"
-    }
+  "name": "option-monade",
+  "version": "1.0.0",
+  "description": "Option monadic collection implementation for JS",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha",
+    "test:watch": "mocha watch"
+  },
+  "keywords": [
+    "Option",
+    "monadic",
+    "collection",
+    "ECMAScript6",
+    "functional"
+  ],
+  "author": "Oleg Kozak",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "to-be-filled"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "gulp": "^3.9.1",
+    "gulp-jshint": "^2.0.4",
+    "gulp-mocha": "^4.0.1",
+    "jshint": "^2.9.4",
+    "jshint-stylish": "^2.2.1",
+    "mocha": "^3.2.0"
+  }
 }
