@@ -1,38 +1,34 @@
-const
-    assert = require("assert"),
-    Option = require("../src/Option"),
-    None   = require("../src/None");
+const {expect} = require("chai");
+const {Option, None} = require("../src/Option");
 
 describe("'None' instance of an 'Option' monad", function() {
 
     describe("#create() static method", function() {
         it("should return instance of self that is also an instance of Option", function() {
             let noneOpt = None.create();
-            assert.ok(noneOpt instanceof None);
-            assert.ok(noneOpt instanceof Option);
+            expect(noneOpt).to.be.instanceof(None);
+            expect(noneOpt).to.be.instanceof(Option);
         });
     });
 
     describe("#isDefined() method", function() {
         it("should return 'false'", function() {
             let noneOpt = Option(null);
-            assert.ok(!noneOpt.isDefined());
+            expect(noneOpt.isDefined()).to.be.false;
         });
     });
 
     describe("#isEmpty() method", function() {
         it("should return 'true'", function() {
             let noneOpt = Option(null);
-            assert.ok(noneOpt.isEmpty());
+            expect(noneOpt.isEmpty()).to.be.true;
         });
     });
 
     describe("#get() method", function() {
         it("should throw error when called", function() {
             let noneOpt = Option(null);
-            assert.throws(() => {
-                noneOpt.get();
-            });
+            expect(() => { noneOpt.get(); }).to.throw(Error);
         });
     });
 
@@ -40,7 +36,8 @@ describe("'None' instance of an 'Option' monad", function() {
         it("should return value passed to the method", function() {
             let expected = 1,
                 result   = Option(null).getOrElse(expected);
-            assert.deepEqual(expected, result);
+
+            expect(result).to.be.deep.equal(expected);
         });
     });
 
@@ -48,27 +45,28 @@ describe("'None' instance of an 'Option' monad", function() {
         it("should return value that a function passed to the method returns", function() {
             let expected = 1,
                 result   = Option(null).getOrCall(() => expected);
-            assert.deepEqual(expected, result);
+
+            expect(result).to.be.deep.equal(expected);
         });
 
-        it("should throw error if the argument passed to the method is not a function", function() {
-            assert.throws(() => {
-                Option(null).getOrCall("not a function");
-            });
+        it("should throw TypeError if the argument passed to the method is not a function", function() {
+            let thrower = () => Option(null).getOrCall("not a function");
+
+            expect(thrower).to.throw(TypeError);
         });
     });
 
     describe("#getOrThrow() method", function() {
         it("should throw error that has been passed to the method", function() {
-            assert.throws(() => {
-                Option(null).getOrThrow(new Error("error message"), "error message");
-            });
+            let thrower = () => Option(null).getOrThrow(new Error("error message"));
+
+            expect(thrower).to.throw("error message");
         });
 
-        it("should throw error if argument passed to the method is not an instance of an 'Error'", function() {
-            assert.throws(() => {
-                Option(null).getOrThrow("not an error");
-            });
+        it("should throw TypeError if argument passed to the method is not an instance of an 'Error'", function() {
+            let thrower = () => Option(null).getOrThrow("not an error");
+
+            expect(thrower).to.throw(TypeError);
         });
     });
 
@@ -76,62 +74,63 @@ describe("'None' instance of an 'Option' monad", function() {
         it("should return the instance of an Option that has been passed to the method", function() {
             let expected = Option(1),
                 result   = Option(null).orElse(expected);
-            assert.deepEqual(expected, result);
+
+            expect(result).to.be.deep.equal(expected);
         });
 
-        it("should throw an error if argument passed to the method is not an instance if Option", function() {
-            assert.throws(() => {
-                Option(null).orElse("not an option");
-            });
+        it("should throw an TypeError if argument passed to the method is not an instance if Option", function() {
+            let thrower = () => Option(null).orElse("not an option");
+
+            expect(thrower).to.throw(TypeError);
         });
     });
 
     describe("#forAll() method", function() {
         it("should return itself", function() {
             let noneOpt = Option(null);
-            assert.ok(Object.is(noneOpt, noneOpt.forAll(() => "some func")));
+            expect(noneOpt.forAll(() => "some func")).to.satisfy(opt => Object.is(opt, noneOpt));
         });
     });
 
     describe("#map() method", function() {
         it("should return itself", function() {
             let noneOpt = Option(null);
-            assert.ok(Object.is(noneOpt, noneOpt.map(() => "some func")));
+            expect(noneOpt.map(() => "some func")).to.satisfy(opt => Object.is(opt, noneOpt));
         });
     });
 
     describe("#flatMap() method", function() {
         it("should return itself", function() {
             let noneOpt = Option(null);
-            assert.ok(Object.is(noneOpt, noneOpt.flatMap(() => "some func")));
+            expect(noneOpt.flatMap(() => "some func")).to.satisfy(opt => Object.is(opt, noneOpt));
         });
     });
 
     describe("#filter() method", function() {
         it("should return itself", function() {
             let noneOpt = Option(null);
-            assert.ok(Object.is(noneOpt, noneOpt.filter(() => true)));
+            expect(noneOpt.filter(() => true)).to.satisfy(opt => Object.is(opt, noneOpt));
         });
     });
 
     describe("#filterNot() method", function() {
         it("should return itself", function() {
             let noneOpt = Option(null);
-            assert.ok(Object.is(noneOpt, noneOpt.filterNot(() => true)));
+            expect(noneOpt.filterNot(() => true)).to.satisfy(opt => Object.is(opt, noneOpt));
         });
     });
 
     describe("#select() method", function() {
         it("should return itself", function() {
             let noneOpt = Option(null);
-            assert.ok(Object.is(noneOpt, noneOpt.select("some value")));
+            expect(noneOpt.select("some value")).to.satisfy(opt => Object.is(opt, noneOpt));
         });
     });
 
     describe("#reject() method", function() {
         it("should return itself", function() {
             let noneOpt = Option(null);
-            assert.ok(Object.is(noneOpt, noneOpt.reject("some value")));
+            expect(noneOpt.reject("some value")).to.satisfy(opt => Object.is(opt, noneOpt));
         });
     });
 
@@ -140,7 +139,7 @@ describe("'None' instance of an 'Option' monad", function() {
             let noneOpt    = Option(null),
                 initialVal = 1;
 
-            assert.deepEqual(noneOpt.foldLeft(initialVal), initialVal);
+            expect(noneOpt.foldLeft(initialVal)).to.be.deep.equal(initialVal);
         });
     });
 
@@ -149,7 +148,7 @@ describe("'None' instance of an 'Option' monad", function() {
             let noneOpt    = Option(null),
                 initialVal = 1;
 
-            assert.deepEqual(noneOpt.foldRight(initialVal), initialVal);
+            expect(noneOpt.foldRight(initialVal)).to.be.deep.equal(initialVal);
         });
     });
 });
