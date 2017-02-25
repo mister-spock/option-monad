@@ -91,6 +91,14 @@ describe("'Some' variant of an 'Option' monad", function() {
             expect(someOpt.map(val => val * 2).get()).to.be.deep.equal(2);
         });
 
+        it("should not mutate inner value of the original instance", function() {
+            let someOpt   = Option(1),
+                mappedOpt = someOpt.map(val => val * 2);
+
+            expect(someOpt.get()).to.be.deep.equal(1);
+            expect(mappedOpt.get()).to.be.deep.equal(2);
+        });
+
         it("should throw TypeError when the argument supplied is not a function", function() {
             expect(() => Option(1).map("not a func!")).to.throw(TypeError);
         });
@@ -107,6 +115,14 @@ describe("'Some' variant of an 'Option' monad", function() {
         it("should return function's return value wrapped into Some", function() {
             let someOpt = Option(1);
             expect(someOpt.flatMap(val => Option(val * 2)).get()).to.be.deep.equal(2);
+        });
+
+        it("should not mutate inner value of the original instance", function() {
+            let someOpt   = Option(1),
+                mappedOpt = someOpt.flatMap(val => Option(val * 2));
+
+            expect(someOpt.get()).to.be.deep.equal(1);
+            expect(mappedOpt.get()).to.be.deep.equal(2);
         });
 
         it("should throw Error if the argumnet function's return value is not an Option instance", function() {
@@ -200,7 +216,67 @@ describe("'Some' variant of an 'Option' monad", function() {
         });
     });
 
-    describe("#foldLeft() method", function() {});
+    describe("#foldLeft() method", function() {
+        it([
+            "should accept initial value and folding function",
+            "and return the result of applying a function on initial value",
+            "and inner value of the Option"
+        ].join(' '), function() {
+            let someOpt = Option(1),
+                result  = someOpt.foldLeft(10, (initial, inner) => initial + inner);
 
-    describe("#foldRight() method", function() {});
+            expect(result).to.be.deep.equal(11);
+        });
+
+        it([
+            "folding function first argument has to be an initial value of the method call,",
+            "and the second argument has to be the inner value of the Option"
+        ].join(' '), function() {
+            let someOpt     = Option(1),
+                initialVal  = 10,
+                foldingFunc = (initial, inner) => {
+                    expect(initial).to.be.deep.equal(initialVal);
+                    expect(inner).to.be.deep.equal(1);
+                    return initial + inner;
+                };
+
+            someOpt.foldLeft(initialVal, foldingFunc);
+        });
+
+        it("should throw TypeError if the second argument of the method is not a folding function", function() {
+            expect(() => Option(1).foldLeft(1, "not a func!")).to.throw(TypeError);
+        });
+    });
+
+    describe("#foldRight() method", function() {
+        it([
+            "should accept initial value and folding function",
+            "and return the result of applying a function on initial value",
+            "and inner value of the Option"
+        ].join(' '), function() {
+            let someOpt = Option(1),
+                result  = someOpt.foldRight(10, (inner, initial) => inner + initial);
+
+            expect(result).to.be.deep.equal(11);
+        });
+
+        it([
+            "folding function first argument has to be the inner value of the Option,",
+            "and the second argument has to be the initial value of the method call"
+        ].join(' '), function() {
+            let someOpt     = Option(1),
+                initialVal  = 10,
+                foldingFunc = (inner, initial) => {
+                    expect(initial).to.be.deep.equal(initialVal);
+                    expect(inner).to.be.deep.equal(1);
+                    return inner + initial;
+                };
+
+            someOpt.foldRight(initialVal, foldingFunc);
+        });
+
+        it("should throw TypeError if the second argument of the method is not a folding function", function() {
+            expect(() => Option(1).foldRight(1, "not a func!")).to.throw(TypeError);
+        });
+    });
 });
