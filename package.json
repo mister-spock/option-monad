@@ -18,7 +18,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git@github.com:mister-spock/option-monade.git"
+    "url": "git@github.com:mister-spock/option-monad.git"
   },
   "devDependencies": {
     "chai": "^3.5.0",

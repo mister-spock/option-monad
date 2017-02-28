@@ -17,7 +17,7 @@ Module can be easily installed with NPM:
 
 Simply require it in your code:
 ```javascript
-    const option = require("option-monad");
+const option = require("option-monad");
 ```
 
 Module consists of `Option` facade function, and two concrete variants of an Option: `Some` and `None` constructors.
@@ -41,39 +41,39 @@ Offers singular entry point to work with options. It is worth remembering that t
 
 Function signature is:
 ```javascript
-    function Option(value, noneValue = null) { ... }
+function Option(value, noneValue = null) { ... }
 ```
 
 , where `value` is the value, that is going to be stored in an Option. You can also supply value to the `noneValue` argument that will be used as a criteria of the `None` case.
 
 #### Example:
 ```javascript
-    let resultOne = Option(1);          // will result in a Some instance
-    let resultTwo = Option([], []);     // will result in a None instance
+let resultOne = Option(1);          // will result in a Some instance
+let resultTwo = Option(2, 2);     // will result in a None instance
 ```
 
 **Both "Some" and "None" instances are also considered instances of the "Option" type:**
 ```javascript
-    let someOpt = Option("value");
+let someOpt = Option("value");
 
-    console.log(someOpt instanceof Some);       // true
-    console.log(someOpt instanceof Option);     // true
+console.log(someOpt instanceof Some);       // true
+console.log(someOpt instanceof Option);     // true
 ```
 
 or
 
 ```javascript
-    let noneOpt = Option(null);
+let noneOpt = Option(null);
 
-    console.log(noneOpt instanceof None);       // true
-    console.log(noneOpt instanceof Option);     // true
+console.log(noneOpt instanceof None);       // true
+console.log(noneOpt instanceof Option);     // true
 ```
 
 **Option.fromReturn() method:**
 
 Signature:
 ```javascript
-    fromReturn(func, ...args);
+Option.fromReturn(func, ...args);
 ```
 
 Allows you to build on Option instance out of a function and a set of arguments to be passed to it:
@@ -88,47 +88,47 @@ Allows you to build on Option instance out of a function and a set of arguments 
 #### You can build functions that have a determined return type:
 
 ```javascript
-    const {Some, None} = require("option-monad");
+const {Some, None} = require("option-monad");
 
-    function someFunc(criteria) {
-        let ret = someApi.getObject();
+function someFunc(criteria) {
+    let ret = someApi.getObject();
 
-        if (ret === criteria) {
-            return Some.create(ret); // You can also use "new Some(ret)" as well
-        }
-
-        // None is a singletonn
-        return None.create();
+    if (ret === criteria) {
+        return Some.create(ret); // You can also use "new Some(ret)" as well
     }
+
+    // None is a singletonn
+    return None.create();
+}
 ```
 You can be completely sure that such function will always return `Option` type value.
 
 #### Getting the value out of an Option:
 
 ```javascript
-    let val = someFunc(true).get();
+let val = someFunc(true).get();
 ```
 Will throw an `Error` if the return value is `None`.
 
 #### Falling back to a default value:
 
 ```javascript
-    let val = someFunc(true).getOrElse("fallback");
+let val = someFunc(true).getOrElse("fallback");
 
-    /* or ... */
+/* or ... */
 
-    let val = someFunc(true).getOrCall(() => { {foo: "fallback"} });
+let val = someFunc(true).getOrCall(() => { {foo: "fallback"} });
 ```
 
 #### You can try different alternate options:
 
 ```javascript
-    return someFunc(true)
-        .orElse(someOtherApi().getObject())
-        .orElse(someCrappyApi().getDefault());
+return someFunc(true)
+    .orElse(someOtherApi().getObject())
+    .orElse(someCrappyApi().getDefault());
 ```
 
-### Development
+## Development
 
 You can make use of a few Gulp tasks out there:
 * `gulp jshint` runs JSHint
