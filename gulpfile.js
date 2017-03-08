@@ -7,9 +7,14 @@ const
 gulp.task("default", ["jshint", "test"]);
 
 gulp.task("jshint", function() {
-    return gulp.src("./src/*.js")
+    return gulp.src([
+            "./src/*.js",
+            "./test/*.js"
+        ])
         .pipe(jshint({
-            esversion: 6
+            esversion : 6,
+            lastsemic : true, // suppresses warnings about missing semicolons when the semicolon is omitted for the last statement in a one-line block
+            expr      : true  // suppresses warnings about the use of expressions where jshint would expect assignments or function calls
         }))
         .pipe(jshint.reporter("jshint-stylish"));
 });
