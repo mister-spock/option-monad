@@ -1,6 +1,6 @@
-# JavaScript "Option" type
+# JavaScript `Option` monad type
 
-This adds an Option type for JavaScript.
+This adds an Option monad type for JavaScript.
 
 The Option type is intended for cases where you sometimes might return a value (typically an object), and sometimes you might return no value (typically null) depending on arguments, or other runtime factors.
 
@@ -10,14 +10,14 @@ On one hand, the Option type forces a developer to consciously think about both 
 
 Module can be easily installed with NPM:
 ```bash
-    npm install --save option-monad
+npm install --save option-monad
 ```
 
 ## Usage
 
 Simply require it in your code:
 ```javascript
-const option = require("option-monad");
+const {Option} = require("option-monad");
 ```
 
 Module consists of `Option` facade function, and two concrete variants of an Option: `Some` and `None` constructors.
@@ -78,9 +78,9 @@ Option.fromReturn(func, ...args);
 
 Allows you to build on Option instance out of a function and a set of arguments to be passed to it:
 ```javascript
-    let opt = Option.fromReturn((val1, val2) => { val1 * val2 }, 2, 20);
+let opt = Option.fromReturn((val1, val2) => { val1 * val2 }, 2, 20);
 
-    console.log(opt.get());     // 40
+console.log(opt.get());     // 40
 ```
 
 ### Examples

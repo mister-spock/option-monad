@@ -1,6 +1,6 @@
 const
     gulp   = require("gulp"),
-    util   = require("gulp-util"),
+    gutil  = require("gulp-util"),
     jshint = require("gulp-jshint"),
     mocha  = require("gulp-mocha");
 
@@ -16,22 +16,30 @@ gulp.task("jshint", function() {
             lastsemic : true, // suppresses warnings about missing semicolons when the semicolon is omitted for the last statement in a one-line block
             expr      : true  // suppresses warnings about the use of expressions where jshint would expect assignments or function calls
         }))
-        .pipe(jshint.reporter("jshint-stylish"));
+        .pipe(jshint.reporter("jshint-stylish"))
+        .on('error', gutil.log);
 });
 
 gulp.task("test", function() {
-    return gulp.src("./test/*.js")
+    return gulp.src([
+            "./test/option_test.js",
+            "./test/some_test.js",
+            "./test/none_test.js",
+            "./test/functional_tests.js"
+        ])
         .pipe(mocha({
             reporter: "spec"
         }))
-        .on("error", util.log);
+        .on('error', gutil.log);
 });
 
 gulp.task("watch", ["jshint", "test"],function() {
     gulp.watch([
             "./src/*.js",
-            "./test/*js"
-        ], [
+            "./test/*.js"
+        ], {
+            interval: 500
+        }, [
             "jshint",
             "test"
         ]);

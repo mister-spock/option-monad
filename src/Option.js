@@ -1,5 +1,4 @@
-// Option base abstract class
-const value = Symbol("okozak:option-js:value");
+const value = Symbol("okozak:option-monad:value");
 let noneInst = null;
 
 /**
