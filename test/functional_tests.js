@@ -1,6 +1,7 @@
 const
-    {expect} = require('chai'),
-    {Option, None} = require('../src/Option');
+    {expect} = require("chai"),
+    {Option, Some, None} = require("../src/Option"),
+    LazyOption = require("../src/LazyOption");
 
 describe("A set of functional tests for the 'Option' type", function() {
 
@@ -84,5 +85,25 @@ describe("A set of functional tests for the 'Option' type", function() {
 
         expect(initialFuncCalled).to.be.true;
         expect(result).to.be.deep.equal(6);
+    });
+});
+
+describe("A set of functional tests for the 'LazyOption' type", function() {
+
+    it("should evaluate only once and then just hold the resulting value", function() {
+        let timesEvaluated = 0,
+            lazyOpt        = LazyOption.create(() => {
+                timesEvaluated++;
+                return 1;
+            }, null);
+
+        let resultOne   = lazyOpt.map(val => val * 2).get(),
+            resultTwo   = lazyOpt.isDefined(),
+            resultThree = lazyOpt.filter(val => val === 3);
+
+        expect(timesEvaluated).to.be.deep.equal(1);
+        expect(resultOne).to.be.deep.equal(2);
+        expect(resultTwo).to.be.true;
+        expect(resultThree).to.be.instanceof(None);
     });
 });

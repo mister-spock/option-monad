@@ -38,7 +38,7 @@ Object.defineProperty(Option, Symbol.hasInstance, {
 Object.defineProperty(Option, "fromReturn", {
     value: function(func, ...params) {
         if (!(func instanceof Function)) {
-            throw new TypeError("A function must be passed as the first argument of 'Option.fromReturn' method");
+            throw new TypeError(`A function must be passed as the first argument of 'Option.fromReturn' method, "${typeof func}" given`);
         }
         return Option(func(...params));
     },
@@ -55,6 +55,10 @@ Object.defineProperty(Option, "fromReturn", {
  * @param {Any} val
  */
 function Some(val) {
+    if (new.target !== Some) {
+        throw new Error("'Some' is a constructor and should not be called as a function");
+    }
+
     this[value] = val;
 }
 
@@ -81,7 +85,11 @@ Object.defineProperty(Some, "create", {
  * Constructor
  * @return {None}
  */
-function None() {}
+function None() {
+    if (new.target !== None) {
+        throw new Error("'None' is a constructor and should not be called as a function");
+    }
+}
 
 /**
  * Static method for creating an instance of None.
@@ -135,7 +143,7 @@ Object.assign(Some.prototype, {
 
     forAll(func) {
         if (!(func instanceof Function)) {
-            throw new TypeError("Argument passed to the Option.forAll method has to be a function");
+            throw new TypeError(`Argument passed to the Option.forAll method has to be a function, "${typeof func}" given`);
         }
         func(this[value]);
         return this;
@@ -143,7 +151,7 @@ Object.assign(Some.prototype, {
 
     map(func) {
         if (!(func instanceof Function)) {
-            throw new TypeError("Argument passed to the Option.map method has to be a function");
+            throw new TypeError(`Argument passed to the Option.map method has to be a function, "${typeof func}" given`);
         }
 
         return new Some(func(this[value]));
@@ -151,7 +159,7 @@ Object.assign(Some.prototype, {
 
     flatMap(func) {
         if (!(func instanceof Function)) {
-            throw new TypeError("Argument passed to the Option.flatMap method has to be a function");
+            throw new TypeError(`Argument passed to the Option.flatMap method has to be a function, "${typeof func}" given`);
         }
 
         let result = func(this[value]);
@@ -165,7 +173,7 @@ Object.assign(Some.prototype, {
 
     filter(func) {
         if (!(func instanceof Function)) {
-            throw new TypeError("Argument passed to the Option.filter method has to be a function");
+            throw new TypeError(`Argument passed to the Option.filter method has to be a function, "${typeof func}" given`);
         }
 
         if (Object.is(true, func(this[value]))) {
@@ -177,7 +185,7 @@ Object.assign(Some.prototype, {
 
     filterNot(func) {
         if (!(func instanceof Function)) {
-            throw new TypeError("Argument passed to the Option.filterNot method has to be a function");
+            throw new TypeError(`Argument passed to the Option.filterNot method has to be a function, "${typeof func}" given`);
         }
 
         if (Object.is(false, func(this[value]))) {
@@ -203,14 +211,14 @@ Object.assign(Some.prototype, {
 
     foldLeft(initialVal, func) {
         if (!(func instanceof Function)) {
-            throw new TypeError("Argument passed to the Option.foldLeft method has to be a function");
+            throw new TypeError(`Second argument passed to the Option.foldLeft method has to be a function, "${typeof func}" given`);
         }
         return func(initialVal, this[value]);
     },
 
     foldRight(initialVal, func) {
         if (!(func instanceof Function)) {
-            throw new TypeError("Argument passed to the Option.foldRight method has to be a function");
+            throw new TypeError(`Second argument passed to the Option.foldRight method has to be a function, "${typeof func}" given`);
         }
         return func(this[value], initialVal);
     }
@@ -235,21 +243,21 @@ Object.assign(None.prototype, {
 
     getOrCall(func) {
         if (!(func instanceof Function)) {
-            throw new TypeError("Argument passed to the Option.getOrCall method has to be a function");
+            throw new TypeError(`Argument passed to the Option.getOrCall method has to be a function, "${typeof func}" given`);
         }
         return func();
     },
 
     getOrThrow(error) {
         if (!(error instanceof Error)) {
-            throw new TypeError("Argument passed to the Option.getOrThrow method has to be an instance of Error");
+            throw new TypeError(`Argument passed to the Option.getOrThrow method has to be an instance of Error, "${typeof error}" given`);
         }
         throw error;
     },
 
     orElse(elseOpt) {
         if (!(elseOpt instanceof Option)) {
-            throw new TypeError("Argument passed to the Option.orElse method has to be an instance of Option");
+            throw new TypeError(`Argument passed to the Option.orElse method has to be an instance of Option, "${typeof elseOpt}" given`);
         }
         return elseOpt;
     },

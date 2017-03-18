@@ -25,6 +25,7 @@ gulp.task("test", function() {
             "./test/option_test.js",
             "./test/some_test.js",
             "./test/none_test.js",
+            "./test/lazy_option_test.js",
             "./test/functional_tests.js"
         ])
         .pipe(mocha({
