@@ -279,4 +279,11 @@ describe("'Some' variant of an 'Option' monad", function() {
             expect(() => Option(1).foldRight(1, "not a func!")).to.throw(TypeError);
         });
     });
+
+    describe("#toString() method", function() {
+        it("should return correct value when called", function() {
+            let someOpt = Option(1);
+            expect(someOpt.toString()).to.be.deep.equal("Some(1)");
+        });
+    });
 });

@@ -22,18 +22,18 @@ const {Option} = require("option-monad");
 
 Module consists of `Option` facade function, and two concrete variants of an Option: `Some` and `None` constructors.
 `Option` type supports chaining of the standard set of **transformations**:
-* `map(): Some|None`
-* `flatMap(): Some|None`
-* `filter(): Some|None`
-* `filterNot(): Some|None`
-* `select(): Some|None`
-* `reject(): Some|None`
-* `foldLeft(): Any`
-* `foldRight(): Any`
+* `map(func: Any => Any): Option`
+* `flatMap(func: Any => Option): Option`
+* `filter(func: Any => Boolean): Option`
+* `filterNot(func: Any => Boolean): Option`
+* `select(val: Any): Option`
+* `reject(val: Any): Option`
+* `foldLeft(initial: T, func: Any => T): T`
+* `foldRight(initial: T, func: Any => T): T`
 
 It also has two methods for **querying**:
-* `isEmpty(): boolean`
-* `isDefined(): boolean`
+* `isDefined(): Boolean`
+* `isEmpty(): Boolean`
 
 Keep in mind, that **not any** of those methods will mutate the `Option` instance they were called on.
 
@@ -85,6 +85,22 @@ let opt = Option.fromReturn((val1, val2) => { val1 * val2 }, 2, 20);
 console.log(opt.get());     // 40
 ```
 
+**Option.ensure() method (v1.2.0):**
+
+Signature:
+```javascript
+Option.ensure(val);
+```
+
+It will ensure, that any value given to it is an Option. If not - it will be wrapped into one:
+```javascript
+let valueOne = "val",
+    valueTwo = Option("other");
+
+Option.ensure(valueOne);   // Some {}
+Option.ensure(valueTwo);   // Some {}
+```
+
 ## v1.1.0 Introducing `LazyOption` type
 
 Introducing a lazily evaluated `Option` called `LazyOption`. It will allow you to wrap expensive functions into `LazyOption` type, and be sure that they will evaluated *only once* and *only when you absolutely need that return value*.
@@ -106,18 +122,18 @@ It supports a full spectrum of methods of the `Option` type.
 It is worth remembering, that calling for those will evaluate the function, stored in the `LazyOption`.
 
 **Query methods**
-* `isDefined(): boolean`
-* `isEmpty(): boolean`
+* `isDefined(): Boolean`
+* `isEmpty(): Boolean`
 
 **Transformations**
-* `map(): Some|None`
-* `flatMap(): Some|None`
-* `filter(): Some|None`
-* `filterNot(): Some|None`
-* `select(): Some|None`
-* `reject(): Some|None`
-* `foldLeft(): Any`
-* `foldRight(): Any`
+* `map(func: Any => Any): Option`
+* `flatMap(func: Any => Option): Option`
+* `filter(func: Any => Boolean): Option`
+* `filterNot(func: Any => Boolean): Option`
+* `select(val: Any): Option`
+* `reject(val: Any): Option`
+* `foldLeft(initial: T, func: Any => T): T`
+* `foldRight(initial: T, func: Any => T): T`
 
 As you can see, calling for any of those methods will evaluate the stored value (if it wasn't already). Also, the transformation methods, except `fold*` methods, will return normal instances of `Some|None` variants of the `Option` type. Just as with the `Option`, these methods will not mutate the instance they were called on, e.g. the original instance of `LazyOption` will maintain it's type throughout it's lifecycle.
 

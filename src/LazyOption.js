@@ -113,7 +113,13 @@ Object.assign(LazyOption.prototype, {
 
     foldRight(initialVal, func) {
         return this._evaluate().foldRight(initialVal, func);
+    },
+
+    toString() {
+        let stringRep = this.isEvaluated ? this[value] : this[lazyCallback];
+        return `LazyOption(${stringRep})`;
     }
 });
+
 
 module.exports = LazyOption;

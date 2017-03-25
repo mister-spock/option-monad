@@ -151,4 +151,11 @@ describe("'None' variant of an 'Option' monad", function() {
             expect(noneOpt.foldRight(initialVal)).to.be.deep.equal(initialVal);
         });
     });
+
+    describe("#toString() method", function() {
+        it("should return correct value when called", function() {
+            let noneOpt = Option(null);
+            expect(noneOpt.toString()).to.be.deep.equal("None()");
+        });
+    });
 });

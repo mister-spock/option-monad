@@ -47,6 +47,26 @@ Object.defineProperty(Option, "fromReturn", {
     writable     : false
 });
 
+/**
+ * Static method that will ensure, that given value is an Option.
+ * If the argument is not an option, it will be wrapped into one.
+ * @param {Any} val Value to ensure
+ * @return {Option}
+ */
+Object.defineProperty(Option, "ensure", {
+    value: function(val) {
+        if (val instanceof Option) {
+            return val;
+        }
+        else {
+            return Option(val);
+        }
+    },
+    enumerable   : false,
+    configurable : false,
+    writable     : false
+});
+
 
 // Some case of an Option
 
@@ -221,8 +241,13 @@ Object.assign(Some.prototype, {
             throw new TypeError(`Second argument passed to the Option.foldRight method has to be a function, "${typeof func}" given`);
         }
         return func(this[value], initialVal);
+    },
+
+    toString() {
+        return `Some(${this[value]})`;
     }
 });
+
 
 Object.assign(None.prototype, {
     isDefined() {
@@ -296,8 +321,13 @@ Object.assign(None.prototype, {
 
     foldRight(initialVal) {
         return initialVal;
+    },
+
+    toString() {
+        return "None()";
     }
 });
+
 
 module.exports = {
     Option,
