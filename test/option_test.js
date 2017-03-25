@@ -47,4 +47,22 @@ describe("'Option' monad", function() {
             expect(thrower).to.throw(TypeError);
         });
     });
+
+    describe("#ensure() static method", function() {
+        it("should return the same instance of Option when Option was given", function() {
+            let opt = Option(1),
+                res = Option.ensure(opt);
+
+            expect(res).to.be.instanceof(Option);
+            expect(Object.is(opt, res)).to.be.true;
+        });
+
+        it("should return instance of Option wrapping the value when value of any other type was given", function() {
+            let value  = "value",
+                result = Option.ensure(value);
+
+            expect(result).to.be.instanceof(Option);
+            expect(result.get()).to.be.deep.equal(value);
+        });
+    });
 });

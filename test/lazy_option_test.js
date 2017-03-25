@@ -156,4 +156,19 @@ describe("'LazyOption' monad", function() {
             expect(lazyOpt).to.be.instanceof(LazyOption);
         });
     });
+
+    describe("#toString() method", function() {
+        it("should return correct value when called on unevaluated LazyOption", function() {
+            let lOpt = new LazyOption(() => 1);
+            expect(lOpt.toString()).to.be.deep.equal("LazyOption(() => 1)");
+        });
+
+        it("should return correct value when called on evaluated LazyOption", function() {
+            let lOpt = new LazyOption(() => 1);
+
+            lOpt.get();
+
+            expect(lOpt.toString()).to.be.deep.equal("LazyOption(Some(1))");
+        });
+    });
 });
