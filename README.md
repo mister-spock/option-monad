@@ -101,44 +101,6 @@ Option.ensure(valueOne);   // Some {}
 Option.ensure(valueTwo);   // Some {}
 ```
 
-## v1.1.0 Introducing `LazyOption` type
-
-Introducing a lazily evaluated `Option` called `LazyOption`. It will allow you to wrap expensive functions into `LazyOption` type, and be sure that they will evaluated *only once* and *only when you absolutely need that return value*.
-
-It is a constructor, so you can safely call it with **new** operator, or use convenient `create` static method (the signatures are the same).
-
-Keep in mind, that `LazyOption` is a separate type, so calling `lazyOptInst instanceof Option` will return `false`.
-
-Signature:
-```javascript
-LazyOption(callback, nullValue, ...callbackParams);
-```
-
-You can use bound or unbound functions, or even any other value as the `callback` argument for instance creation (for the latter - it won't be lazy, it will just store the value supplied).
-The second parameter `nullValue` is mandatory (contrary to the `Option` creation).
-Then you can give as many arguments as you want for `...callbackParams` rest parameter, as those will be used for `callback` invocation when the time to evaluate comes.
-
-It supports a full spectrum of methods of the `Option` type.
-It is worth remembering, that calling for those will evaluate the function, stored in the `LazyOption`.
-
-**Query methods**
-* `isDefined(): Boolean`
-* `isEmpty(): Boolean`
-
-**Transformations**
-* `map(func: Any => Any): Option`
-* `flatMap(func: Any => Option): Option`
-* `filter(func: Any => Boolean): Option`
-* `filterNot(func: Any => Boolean): Option`
-* `select(val: Any): Option`
-* `reject(val: Any): Option`
-* `foldLeft(initial: T, func: Any => T): T`
-* `foldRight(initial: T, func: Any => T): T`
-
-As you can see, calling for any of those methods will evaluate the stored value (if it wasn't already). Also, the transformation methods, except `fold*` methods, will return normal instances of `Some|None` variants of the `Option` type. Just as with the `Option`, these methods will not mutate the instance they were called on, e.g. the original instance of `LazyOption` will maintain it's type throughout it's lifecycle.
-
-*Examples of usage can bee found in the "Examples" section below, or in tests*
-
 ### Examples
 
 #### You can build functions that have a determined return type:
@@ -182,23 +144,6 @@ let val = someFunc(true).getOrCall(() => { {foo: "fallback"} });
 return someFunc(true)
     .orElse(someOtherApi().getObject())
     .orElse(someCrappyApi().getDefault());
-```
-
-#### `LazyOption` exaple:
-
-```javascript
-const {LazyOption} = require("option-monad");
-
-const someApiCall = function(url, ...parameters) {
-    // ... Some super-expensive code you want to be called only once and only when necessary ...
-};
-
-let lazyOpt = LazyOption.create(someApiCall, null, "https://somedomain.com", "menu", "hot dishes", "ribeye steak");
-
-lazyOpt
-    .filter(val => { /* ...filtering you need... */ })
-    .map(val => { /* ...some mapping you need... */ })
-    .getOrThrow(new Error("Whoa, I can't live without steak!"));
 ```
 
 ## Development
