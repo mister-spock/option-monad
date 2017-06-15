@@ -1,5 +1,7 @@
 # JavaScript `Option` monad type
 
+[![Build Status](https://travis-ci.org/mister-spock/option-monad.svg?branch=master)](https://travis-ci.org/mister-spock/option-monad)
+
 This adds an Option monad type for JavaScript.
 
 The Option type is intended for cases where you sometimes might return a value (typically an object), and sometimes you might return no value (typically null) depending on arguments, or other runtime factors.
