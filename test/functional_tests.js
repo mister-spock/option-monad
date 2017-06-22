@@ -1,6 +1,6 @@
 const
     {expect} = require("chai"),
-    {Option, Some, None} = require("../src/Option");
+    {Option, Some, None} = require("../lib/option");
 
 describe("A set of functional tests for the 'Option' type", function() {
 

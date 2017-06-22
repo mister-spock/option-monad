@@ -2,7 +2,7 @@
   "name": "option-monad",
   "version": "1.3.0",
   "description": "Option monad implementation for JS",
-  "main": "index.js",
+  "main": "lib/option.js",
   "scripts": {
     "test": "gulp test",
     "dev": "gulp watch",

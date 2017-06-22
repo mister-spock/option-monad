@@ -8,7 +8,7 @@ gulp.task("default", ["jshint", "test"]);
 
 gulp.task("jshint", function() {
     return gulp.src([
-            "./src/*.js",
+            "./lib/*.js",
             "./test/*.js"
         ])
         .pipe(jshint({
@@ -36,7 +36,7 @@ gulp.task("test", function() {
 
 gulp.task("watch", ["jshint", "test"],function() {
     gulp.watch([
-            "./src/*.js",
+            "./lib/*.js",
             "./test/*.js"
         ], {
             interval: 500
