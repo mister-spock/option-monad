@@ -1,3 +1,8 @@
+##### v1.4.0 Make Option an Iterable object
+* Both variants of Option (Some|None) are now Iterable
+* Can be used in "for-of" loops
+* Can be used in other delegating generator functions
+
 ##### v1.3.1 Add CI, refactor project structure
 * Added support of Travis CI
 * Moved library files under `lib` directory
