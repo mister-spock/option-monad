@@ -158,4 +158,12 @@ describe("'None' variant of an 'Option' monad", function() {
             expect(noneOpt.toString()).to.be.deep.equal("None()");
         });
     });
+
+    it("should behave like an empty iterator", function() {
+        let noneOpt = Option(null);
+
+        for (let val of noneOpt) {
+            expect(val).to.be.undefined;
+        }
+    });
 });

@@ -6,7 +6,8 @@
   "scripts": {
     "test": "gulp test",
     "dev": "gulp watch",
-    "jshint": "gulp jshint"
+    "jshint": "gulp jshint",
+    "build": "gulp"
   },
   "keywords": [
     "Option",

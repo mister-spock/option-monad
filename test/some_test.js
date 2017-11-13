@@ -286,4 +286,16 @@ describe("'Some' variant of an 'Option' monad", function() {
             expect(someOpt.toString()).to.be.deep.equal("Some(1)");
         });
     });
+
+    it("should behave like an iterator, yielding stored value", function() {
+        let someOpt = Option(1),
+            counter = 0;
+
+        for (let val of someOpt) {
+            expect(val).to.be.deep.equal(someOpt.get());
+            counter++;
+        }
+
+        expect(counter).to.be.equal(1);
+    });
 });
