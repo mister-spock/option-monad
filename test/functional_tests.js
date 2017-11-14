@@ -85,4 +85,27 @@ describe("A set of functional tests for the 'Option' type", function() {
         expect(initialFuncCalled).to.be.true;
         expect(result).to.be.deep.equal(6);
     });
+
+    it("should correctly handle None cases when delegating to it's iterator", function() {
+        let list = [
+                Option(1),
+                Option(2),
+                Option(),
+                Option(3),
+                Option(),
+                Option()
+            ],
+            delegatingGenerator = function*() {
+                for (let i = 0; i < list.length; i++) {
+                    yield *list[i]; // Delegating call to Options default iterator
+                }
+            },
+            output = [];        
+        
+        for (let val of delegatingGenerator()) {
+            output.push(val);
+        }
+
+        expect(output).to.be.deep.equal([1, 2, 3]);
+    });
 });

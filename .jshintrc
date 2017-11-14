@@ -1,5 +1,6 @@
 {
     "esversion": 6,
     "lastsemic": true,
-    "expr": true
+    "expr": true,
+    "noyield": true
 }
