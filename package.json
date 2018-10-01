@@ -1,6 +1,6 @@
 {
   "name": "option-monad",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "Option monad implementation for JS",
   "main": "lib/option.js",
   "scripts": {
