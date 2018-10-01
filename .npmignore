@@ -1,2 +1,5 @@
 ./test/
 gulpfile.js
+_config.yml
+.jshintrc
+.travis.yml

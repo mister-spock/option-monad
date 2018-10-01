@@ -1,3 +1,7 @@
+##### v1.4.2 Security fixes
+* Updated packages versions
+* Migrated to Gulp v4 for development
+
 ##### v1.4.0 Make Option an Iterable object
 * Both variants of Option (Some|None) are now Iterable
 * Can be used in "for-of" loops

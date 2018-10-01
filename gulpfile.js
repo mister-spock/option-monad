@@ -4,8 +4,6 @@ const
     jshint = require("gulp-jshint"),
     mocha  = require("gulp-mocha");
 
-gulp.task("default", ["jshint", "test"]);
-
 gulp.task("jshint", function() {
     return gulp.src([
             "./lib/*.js",
@@ -22,27 +20,22 @@ gulp.task("jshint", function() {
 });
 
 gulp.task("test", function() {
-    return gulp.src([
-            "./test/option_test.js",
-            "./test/some_test.js",
-            "./test/none_test.js",
-            "./test/lazy_option_test.js",
-            "./test/functional_tests.js"
-        ])
+    return gulp.src(["./test/*.js"])
         .pipe(mocha({
             reporter: "spec"
         }))
         .on('error', gutil.log);
 });
 
-gulp.task("watch", ["jshint", "test"],function() {
+gulp.task("default", gulp.parallel("jshint", "test"));
+
+gulp.task("watch", function() {
     gulp.watch([
             "./lib/*.js",
             "./test/*.js"
         ], {
             interval: 500
-        }, [
-            "jshint",
-            "test"
-        ]);
+        },
+        gulp.parallel("jshint", "test")
+    );
 });
