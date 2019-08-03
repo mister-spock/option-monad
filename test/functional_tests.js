@@ -1,6 +1,6 @@
 const
-    {expect} = require("chai"),
-    {Option, Some, None} = require("../lib/option");
+    { expect } = require("chai"),
+    { LazyOption, Option, None } = require("../lib/option");
 
 describe("A set of functional tests for the 'Option' type", function() {
 
@@ -100,12 +100,24 @@ describe("A set of functional tests for the 'Option' type", function() {
                     yield *list[i]; // Delegating call to Options default iterator
                 }
             },
-            output = [];        
-        
+            output = [];
+
         for (let val of delegatingGenerator()) {
             output.push(val);
         }
 
         expect(output).to.be.deep.equal([1, 2, 3]);
+    });
+
+    it("should have 100% interface compatibility with 'LazyOption' type", function() {
+        const lazyOption = LazyOption.create(v => Option(v, null), 42);
+        const result = Option(1)
+            .map(v => v + 1)
+            .filterNot(v => v === 2)
+            .orElse(lazyOption)
+            .filter(v => v === 42)
+            .getOrElse(0);
+
+        expect(result).to.be.equal(42);
     });
 });

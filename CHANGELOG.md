@@ -1,3 +1,7 @@
+##### v1.5.0
+* Added support for `LazyOption` as means of lazy computation as a backup
+* Updated packages integrity via `npm audit fix`
+
 ##### v1.4.2 Security fixes
 * Updated packages versions
 * Migrated to Gulp v4 for development

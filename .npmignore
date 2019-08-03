@@ -1,5 +1,14 @@
-./test/
+# Ignore tests
+./test/**/*
+
+# Ignore scripts
 gulpfile.js
+
+# Ignore GIT
+./git/**/*
+
+# Ignore dev data
 _config.yml
+.editorconfig
 .jshintrc
 .travis.yml

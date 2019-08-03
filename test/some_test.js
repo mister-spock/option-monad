@@ -1,5 +1,5 @@
-const {expect} = require("chai");
-const {Option, Some, None} = require("../lib/option");
+const { expect } = require("chai");
+const { Option, Some, None } = require("../lib/option");
 
 describe("'Some' variant of an 'Option' monad", function() {
 

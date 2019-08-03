@@ -20,7 +20,7 @@ npm install --save option-monad
 
 Simply require it in your code:
 ```javascript
-const {Option} = require("option-monad");
+const { Option } = require("option-monad");
 ```
 
 Module consists of `Option` facade function, and two concrete variants of an Option: `Some` and `None` constructors.
@@ -51,13 +51,21 @@ function Option(value, noneValue = null) { ... }
 
 , where `value` is the value, that is going to be stored in an Option. You can also supply value to the `noneValue` argument that will be used as a criteria of the `None` case.
 
+### 'LazyOption' type
+
+Offers a lazy zounterpart for the `Option` type. Takes a callback and a set of arguments to apply to it. Will internally store those, up until the computation of the option result is required. Callback should return an instance of `Option` (and, potentially, can return another `LazyOption`).
+
+IS a constructor. But possesses `create` static method to create it's instance. IS an Iterable.
+
+Possesses all of the `Option` type's **transformation** and **query** methods (those are mapped to internal `Option` that is a result of the `callback` computation), plus it's own `isResolved` method that exposes it's internal state.
+
 #### Example:
 ```javascript
-let resultOne = Option(1);          // will result in a Some instance
+let resultOne = Option(1);        // will result in a Some instance
 let resultTwo = Option(2, 2);     // will result in a None instance
 ```
 
-**Both "Some" and "None" instances are also considered instances of the "Option" type:**
+**Both "Some", "None", and "LazyOption" instances are also considered instances of the "Option" type:**
 ```javascript
 let someOpt = Option("value");
 
@@ -72,6 +80,15 @@ let noneOpt = Option(null);
 
 console.log(noneOpt instanceof None);       // true
 console.log(noneOpt instanceof Option);     // true
+```
+
+or
+
+```javascript
+let lazy = LazyOption.create(() => Option(1));
+
+console.log(lazy instanceof LazyOption); // true
+console.log(lazy instanceof Option);     // true
 ```
 
 **Option.fromReturn() method:**
@@ -102,6 +119,16 @@ let valueOne = "val",
 
 Option.ensure(valueOne);   // Some {}
 Option.ensure(valueTwo);   // Some {}
+```
+
+**LazyOption (v1.5.0)**
+
+```javascript
+const lazy = LazyOption.create((foo, bar) => Option(foo + bar), "Foo", "Bar");
+
+lazy.map(v => v.toUpperCase())
+    .filter(v => v.length > 0)
+    .getOrElse("");             // "FooBar"
 ```
 
 ### Examples
@@ -147,6 +174,13 @@ let val = someFunc(true).getOrCall(() => { {foo: "fallback"} });
 return someFunc(true)
     .orElse(someOtherApi().getObject())
     .orElse(someCrappyApi().getDefault());
+```
+
+#### You can utilize 'LazyOption' for delayed computation as a backup variant
+
+```javascript
+return someFunc(true)
+    .orElse(LazyOption.create(() => someOtherApi().getObject());
 ```
 
 ## Development
