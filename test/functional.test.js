@@ -1,10 +1,9 @@
-const
-    { expect } = require("chai"),
-    { LazyOption, Option, None } = require("../lib/option");
+const { LazyOption, Option, None } = require("../lib/option");
+const { describe, expect, test } = require('@jest/globals');
 
 describe("A set of functional tests for the 'Option' type", function() {
 
-    it("should adequately chain methods and apply 'map' funtion producing new instance of Option", function() {
+    test("should adequately chain methods and apply 'map' funtion producing new instance of Option", function() {
         let mapWasCalled = false;
 
         const result = Option("some string")
@@ -16,28 +15,28 @@ describe("A set of functional tests for the 'Option' type", function() {
                     .join('+');
             });
 
-        expect(mapWasCalled).to.be.true;
-        expect(result.get()).to.be.deep.equal("SOME+STRING");
+        expect(mapWasCalled).toBe(true);
+        expect(result.get()).toEqual("SOME+STRING");
     });
 
-    it("should return None and not apply 'map' function in case of unsuccessfull 'filter'",function() {
+    test("should return None and not apply 'map' function in case of unsuccessfull 'filter'",function() {
         let mapWasCalled = false;
 
         const result = Option("some string")
             .filter(str => str.startsWith('a'))
             .map(str => {
                 mapWasCalled = true;
-                return str.split(' ')
+                return str.spltest(' ')
                     .map(chunk => chunk.toUpperCase())
                     .join('+');
             });
 
-        expect(mapWasCalled).to.be.false;
-        expect(result).to.be.instanceof(None);
-        expect(() => result.get()).to.throw(Error);
+        expect(mapWasCalled).toBe(false);
+        expect(result).toBeInstanceOf(None);
+        expect(() => result.get()).toThrowError(Error);
     });
 
-    it("should flatten the inner value in case of using 'flatMap'", function() {
+    test("should flatten the inner value in case of using 'flatMap'", function() {
         let filterWasCalled = false;
 
         const result = Option([1, 2, 3, 4])
@@ -48,28 +47,28 @@ describe("A set of functional tests for the 'Option' type", function() {
                 return Option(num);
             });
 
-        expect(filterWasCalled).to.be.true;
-        expect(result.get()).to.not.be.instanceof(Option);
-        expect(result.get()).to.be.deep.equal(3);
+        expect(filterWasCalled).toBe(true);
+        expect(result.get()).not.toBeInstanceOf(Option);
+        expect(result.get()).toEqual(3);
     });
 
-    it("should not call 'filter' function if used on None, 'orElse' should present a non-empty Option to substitute", function() {
+    test("should not call 'filter' function if used on None, 'orElse' should present a non-empty Option to substitute", function() {
         let filterWasCalled = false;
 
         const result = Option("foo", "foo")
-            .filter(val => {
+            .filter(() => {
                 filterWasCalled = true;
                 return true;
             })
             .orElse(Option("other string"))
             .orElse(Option(null));
 
-        expect(filterWasCalled).to.be.false;
-        expect(result.isDefined()).to.be.true;
-        expect(result.get()).to.be.deep.equal("other string");
+        expect(filterWasCalled).toBe(false);
+        expect(result.isDefined()).toBe(true);
+        expect(result.get()).toEqual("other string");
     });
 
-    it("should correctly build Option from a function return", function() {
+    test("should correctly build Option from a function return", function() {
         let initialFuncCalled = false;
 
         const result = Option.fromReturn(() => {
@@ -78,15 +77,15 @@ describe("A set of functional tests for the 'Option' type", function() {
             })
             .filter(arr => Array.isArray(arr))
             .map(arr => {
-                return arr.reduce((acc, num) => { return acc + num }, 0);
+                return arr.reduce((acc, num) => acc + num, 0);
             })
             .getOrElse(0);
 
-        expect(initialFuncCalled).to.be.true;
-        expect(result).to.be.deep.equal(6);
+        expect(initialFuncCalled).toBe(true);
+        expect(result).toEqual(6);
     });
 
-    it("should correctly handle None cases when delegating to it's iterator", function() {
+    test("should correctly handle None cases when delegating to it's iterator", function() {
         let list = [
                 Option(1),
                 Option(2),
@@ -106,10 +105,10 @@ describe("A set of functional tests for the 'Option' type", function() {
             output.push(val);
         }
 
-        expect(output).to.be.deep.equal([1, 2, 3]);
+        expect(output).toEqual([1, 2, 3]);
     });
 
-    it("should have 100% interface compatibility with 'LazyOption' type", function() {
+    test("should have 100% interface compatibility with 'LazyOption' type", function() {
         const lazyOption = LazyOption.create(v => Option(v, null), 42);
         const result = Option(1)
             .map(v => v + 1)
@@ -118,6 +117,6 @@ describe("A set of functional tests for the 'Option' type", function() {
             .filter(v => v === 42)
             .getOrElse(0);
 
-        expect(result).to.be.equal(42);
+        expect(result).toEqual(42);
     });
 });

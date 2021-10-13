@@ -185,8 +185,7 @@ return someFunc(true)
 
 ## Development
 
-You can make use of a few Gulp tasks out there:
-* `gulp jshint` runs JSHint
-* `gulp test` runs Mocha/Chai based tests
-* `gulp` default task, runs both tests and linting
-* `gulp watch` watches the changes on files, runts tests and JSHint on change
+You can make use of a couple of NPM scripts out there:
+* `npm run lint` runs ESLint for library and test sources
+* `npm test` runs Jest-powered tests
+* `npm run build` runs both linting and tests

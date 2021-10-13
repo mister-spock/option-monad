@@ -10,5 +10,6 @@ gulpfile.js
 # Ignore dev data
 _config.yml
 .editorconfig
-.jshintrc
+.eslintrc.json
 .travis.yml
+jest.config.js
