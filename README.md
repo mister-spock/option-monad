@@ -1,7 +1,7 @@
 # JavaScript `Option` monad type
 
 [![NPM](https://img.shields.io/npm/v/option-monad.svg)](https://www.npmjs.com/package/option-monad)
-[![Build Status](https://travis-ci.org/mister-spock/option-monad.svg?branch=master)](https://travis-ci.org/mister-spock/option-monad)
+[![Build Status](https://app.travis-ci.com/mister-spock/option-monad.svg?branch=master)](https://travis-ci.org/mister-spock/option-monad)
 
 This adds an Option monad type for JavaScript.
 
